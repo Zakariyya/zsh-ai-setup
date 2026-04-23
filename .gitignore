@@ -1,0 +1,29 @@
+# Local Codex marker
+.codex
+
+# Local test/install artifacts generated during manual verification
+*.backup-*
+*.log
+*.tmp
+*.temp
+
+# Shell/editor swap and backup files
+*.swp
+*.swo
+*~
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# IDE/editor settings (local only)
+.vscode/
+.idea/
+
+# Env override files (keep repository deterministic)
+.env
+.env.*
+
+# Python cache (in case helper scripts are added/run locally)
+__pycache__/
+*.pyc
