@@ -39,13 +39,13 @@ chmod +x install.sh uninstall.sh scripts/*.sh
 Non-interactive mode:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
+curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
 ```
 
 If you are already inside this repo, you can also run:
 
 ```bash
-./install.sh --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
+./install.sh --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
 ```
 
 ## 🧠 AI execution (two modes)
@@ -53,13 +53,14 @@ If you are already inside this repo, you can also run:
 ### Mode A: direct command (fastest)
 
 ```bash
-bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
+bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
 Note: this command does not require cloning the repo and does not automatically read docs.
 
 Notes:
-- When using `curl | bash`, prefer `--set-default-shell no`
+- If you want `zsh` to become the default shell, use `--set-default-shell yes`
+- In non-interactive `curl | bash` runs, the script skips `chsh` to avoid broken password prompts
 - If you want to switch the default shell, run `chsh -s "$(command -v zsh)"` manually after install
 
 ### Mode B: doc-first instruction (safer)
