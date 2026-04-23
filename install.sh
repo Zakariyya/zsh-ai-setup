@@ -1,7 +1,78 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SELF_BOOTSTRAP_DIR=""
+
+bootstrap_remote_root() {
+  local raw_base repo ref temp_root rel_path dst_dir
+
+  raw_base="${ZSH_AI_SETUP_RAW_BASE:-}"
+  repo="${ZSH_AI_SETUP_REPO:-Zakariyya/zsh-ai-setup}"
+  ref="${ZSH_AI_SETUP_REF:-main}"
+
+  if [[ -z "$raw_base" ]]; then
+    raw_base="https://raw.githubusercontent.com/${repo}/${ref}"
+  fi
+
+  if command -v mktemp >/dev/null 2>&1; then
+    temp_root="$(mktemp -d)"
+  else
+    temp_root="${TMPDIR:-/tmp}/zsh-ai-setup.$$.$RANDOM"
+    mkdir -p "$temp_root"
+  fi
+
+  SELF_BOOTSTRAP_DIR="$temp_root"
+
+  fetch_one() {
+    local rel="$1"
+    local dst="$temp_root/$rel"
+    dst_dir="$(dirname "$dst")"
+    mkdir -p "$dst_dir"
+
+    if command -v curl >/dev/null 2>&1; then
+      curl -fsSL "$raw_base/$rel" -o "$dst"
+    elif command -v wget >/dev/null 2>&1; then
+      wget -qO "$dst" "$raw_base/$rel"
+    else
+      printf '[ERROR] curl or wget is required for remote bootstrap\n' >&2
+      exit 1
+    fi
+  }
+
+  for rel_path in \
+    install.sh \
+    scripts/i18n.sh \
+    scripts/lib.sh \
+    scripts/detect_os.sh \
+    scripts/install_zsh.sh \
+    scripts/install_plugins.sh \
+    configs/.zshrc \
+    configs/.zshenv \
+    configs/aliases.zsh \
+    configs/exports.zsh \
+    configs/plugins.zsh \
+    templates/startup-tip.en.txt \
+    templates/startup-tip.zh-CN.txt
+  do
+    fetch_one "$rel_path"
+  done
+
+  ROOT_DIR="$temp_root"
+}
+
+if [[ -n "${BASH_SOURCE[0]:-}" && -r "${BASH_SOURCE[0]}" ]]; then
+  ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+else
+  bootstrap_remote_root
+fi
+
+cleanup() {
+  if [[ -n "${SELF_BOOTSTRAP_DIR:-}" && -d "${SELF_BOOTSTRAP_DIR:-}" ]]; then
+    rm -rf "$SELF_BOOTSTRAP_DIR"
+  fi
+}
+trap cleanup EXIT
+
 # shellcheck disable=SC1091
 source "$ROOT_DIR/scripts/i18n.sh"
 # shellcheck disable=SC1091

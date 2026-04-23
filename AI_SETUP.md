@@ -34,8 +34,8 @@ command -v git
 先 dry-run，再正式安装，再校验。
 
 ```bash
-./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes --dry-run
-./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
+curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes --dry-run
+curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
 echo "$SHELL"
 zsh --version
 test -f ~/.zshrc
@@ -47,10 +47,10 @@ zsh -n ~/.zshenv
 ## 5. 直接执行命令（不读文档）
 
 ```bash
-bash -lc './install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes && echo "[verify] shell=$SHELL" && zsh --version && test -f ~/.zshrc && test -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && zsh -n ~/.zshrc && zsh -n ~/.zshenv'
+bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-说明：这条命令本身不会自动读取 `AI_SETUP.md` / `AI_USAGE.md`。
+说明：这条命令无需 clone 仓库；但它本身不会自动读取 `AI_SETUP.md` / `AI_USAGE.md`。
 
 ## 6. 先读后执行指令（推荐给代理型 AI）
 

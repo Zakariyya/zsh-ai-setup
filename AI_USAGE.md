@@ -13,7 +13,7 @@
 - 直接执行安装+校验命令
 
 ```bash
-bash -lc './install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes && echo "[verify] shell=$SHELL" && zsh --version && test -f ~/.zshrc && test -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && zsh -n ~/.zshrc && zsh -n ~/.zshenv'
+bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
 ### B. 先读后执行模式（更稳）
@@ -31,8 +31,8 @@ bash -lc './install.sh --lang zh --non-interactive --install-plugins yes --show-
 ## 2) 推荐非交互流程
 
 ```bash
-./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes --dry-run
-./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
+curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes --dry-run
+curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
 ```
 
 ## 3) 最小校验项
@@ -49,4 +49,5 @@ zsh -n ~/.zshenv
 ## 4) 常见误区
 
 - `bash -lc '...'` 命令本身不会自动读取 `AI_SETUP.md`。
+- 现在支持直接联网安装，不需要先 clone 本仓库。
 - 如果希望 AI 一定先读文档，请使用“先读后执行模式”的文字指令。

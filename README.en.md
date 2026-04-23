@@ -21,6 +21,14 @@ AI docs entry points:
 
 ## 🚀 Install (human)
 
+No repo clone is required. Direct network install is supported.
+
+Direct install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang en --interactive
+```
+
 Interactive mode:
 
 ```bash
@@ -31,6 +39,12 @@ chmod +x install.sh uninstall.sh scripts/*.sh
 Non-interactive mode:
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
+```
+
+If you are already inside this repo, you can also run:
+
+```bash
 ./install.sh --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
 ```
 
@@ -39,10 +53,10 @@ Non-interactive mode:
 ### Mode A: direct command (fastest)
 
 ```bash
-bash -lc './install.sh --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes && echo "[verify] shell=$SHELL" && zsh --version && test -f ~/.zshrc && test -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && zsh -n ~/.zshrc && zsh -n ~/.zshenv'
+bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-Note: this command does not automatically read docs.
+Note: this command does not require cloning the repo and does not automatically read docs.
 
 ### Mode B: doc-first instruction (safer)
 

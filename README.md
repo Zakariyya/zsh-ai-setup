@@ -21,6 +21,14 @@ AI 文档入口（建议置顶给 AI）：
 
 ## 🚀 安装（人类用户）
 
+无需先下载仓库，支持直接联网安装。
+
+直接安装：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --interactive
+```
+
 交互模式：
 
 ```bash
@@ -31,6 +39,12 @@ chmod +x install.sh uninstall.sh scripts/*.sh
 非交互模式：
 
 ```bash
+curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
+```
+
+如果你已经在本仓库目录中，也可以执行：
+
+```bash
 ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
 ```
 
@@ -39,10 +53,10 @@ chmod +x install.sh uninstall.sh scripts/*.sh
 ### 方式 A：直接执行（最快）
 
 ```bash
-bash -lc './install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes && echo "[verify] shell=$SHELL" && zsh --version && test -f ~/.zshrc && test -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && zsh -n ~/.zshrc && zsh -n ~/.zshenv'
+bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-说明：该命令会直接执行安装与校验，不会自动读取文档。
+说明：该命令无需 clone 仓库，会直接安装并校验，不会自动读取文档。
 
 ### 方式 B：先读文档再执行（更稳）
 
