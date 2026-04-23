@@ -1,45 +1,64 @@
 # AI_SETUP
 
-## 1. Project Goal
+面向 AI 代理执行。目标是零猜测、可验证、可重跑。
 
-Package the existing Zsh setup into a deterministic toolkit.
+[中文主文档](./README.md) | [English](./README.en.md) | [AI 速查](./AI_USAGE.md)
 
-Source-of-truth files:
+## 1. 项目目标
+
+把仓库中的真实 Zsh 配置安装到用户环境：
 - `configs/.zshrc`
 - `configs/.zshenv`
 
-Do not replace them with generic templates.
+禁止替换为通用模板。
 
-## 2. Supported Systems
+## 2. 支持系统
 
 - Ubuntu
 - Debian
 - WSL
 
-## 3. Prerequisites
+## 3. 前置检查（必须）
 
-Required commands:
-- `bash`
-- `git`
-
-Runtime notes:
-- `sudo` may be required when zsh is not installed.
-- network access is required for plugin/Oh My Zsh clone.
-
-## 4. Install Commands
-
-Interactive:
 ```bash
-./install.sh --interactive
+command -v bash
+command -v git
 ```
 
-Non-interactive:
+说明：
+- 如果系统没有 `zsh`，安装过程可能需要 `sudo`。
+- 安装插件/Oh My Zsh 需要网络。
+
+## 4. 非交互标准流程（推荐）
+
+先 dry-run，再正式安装，再校验。
+
 ```bash
-./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips off --set-default-shell yes --backup yes
-./install.sh --lang en --non-interactive --install-plugins no --show-startup-tips once --set-default-shell no --backup yes --dry-run
+./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes --dry-run
+./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes
+echo "$SHELL"
+zsh --version
+test -f ~/.zshrc
+test -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+zsh -n ~/.zshrc
+zsh -n ~/.zshenv
 ```
 
-## 5. Parameter Reference
+## 5. 直接执行命令（不读文档）
+
+```bash
+bash -lc './install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes && echo "[verify] shell=$SHELL" && zsh --version && test -f ~/.zshrc && test -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && zsh -n ~/.zshrc && zsh -n ~/.zshenv'
+```
+
+说明：这条命令本身不会自动读取 `AI_SETUP.md` / `AI_USAGE.md`。
+
+## 6. 先读后执行指令（推荐给代理型 AI）
+
+```text
+请先阅读 ./AI_SETUP.md 与 ./AI_USAGE.md，然后按非交互流程执行安装并输出完整校验结果。
+```
+
+## 7. 参数参考
 
 - `--lang zh|en`
 - `--interactive`
@@ -52,68 +71,49 @@ Non-interactive:
 - `--dry-run`
 - `--force`
 
-## 6. Default Behaviors
+## 8. 默认行为
 
-- If mode not specified:
+- 未显式指定模式：
   - TTY => interactive
   - non-TTY => non-interactive
-- Default backup: `yes`
-- Default plugin install: `yes`
-- Default startup tips: `always`
-- Existing plugin dirs: skip unless `--force`
+- `--backup` 默认 `yes`
+- `--install-plugins` 默认 `yes`
+- `--show-startup-tips` 默认 `always`
+- 插件目录已存在：默认跳过，`--force` 时尝试更新
 
-## 7. Existing .zshrc Safety
+## 9. 已有 ~/.zshrc 处理规则
 
-When `~/.zshrc` exists:
-- interactive mode asks overwrite
-- backup by default before overwrite
-- backup format:
-  - `.zshrc.backup-YYYYMMDD-xxxx`
+- interactive 模式会询问是否覆盖
+- 默认先备份再写入
+- 备份名：`.zshrc.backup-YYYYMMDD-xxxx`
 
-## 8. Common Failures
+## 10. 常见失败原因
 
-- Missing `git` => plugin install fails.
-- Missing `sudo` + missing `zsh` => cannot auto-install zsh.
-- `chsh` permission/policy => default shell change may fail.
+- 无 `git`：插件拉取失败
+- 无 `sudo` 且未安装 `zsh`：无法自动安装 zsh
+- `chsh` 被系统策略限制：默认 shell 切换失败
 
-## 9. Verify Success
+## 11. 启动提示控制
 
-Run:
-```bash
-echo $SHELL
-zsh --version
-test -f ~/.zshrc
-test -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-zsh -n ~/.zshrc
-zsh -n ~/.zshenv
-```
+- `--show-startup-tips off`
+- `--show-startup-tips always`
+- `--show-startup-tips once`
 
-Open a new terminal and check startup tips in selected language.
-
-## 10. Startup Tips Control
-
-- Disable: `--show-startup-tips off`
-- Enable always: `--show-startup-tips always`
-- Show once: `--show-startup-tips once`
-
-Tips file path:
+提示文件路径：
 - `${XDG_CONFIG_HOME:-$HOME/.config}/zsh-ai-setup/startup-tip.txt`
 
-## 11. Uninstall
+## 12. 卸载
 
-Interactive:
 ```bash
 ./uninstall.sh --interactive
-```
-
-Non-interactive:
-```bash
 ./uninstall.sh --non-interactive --restore-backup yes --force
 ```
 
-Uninstall removes only project-managed files and tries to restore backups.
+仅删除本项目管理内容，尽量恢复备份，不删除无关用户文件。
 
-## 12. Language Selection
+## 13. 语言选择
 
-Use `--lang zh` or `--lang en`.
-All installer prompts/logs and startup tip template follow this setting.
+- 中文：`--lang zh`
+- 英文：`--lang en`
+
+安装提示、日志、启动提示模板都跟随该参数。

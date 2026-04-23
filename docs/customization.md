@@ -1,5 +1,10 @@
 # Customization
 
+Primary docs:
+- `../README.md`
+- `../README.en.md`
+- `./AI_SETUP.md`
+
 ## 1. Keep source-of-truth
 
 Edit repository files first:
@@ -35,7 +40,7 @@ Recommended overrides:
 ## 4. Startup tip language
 
 Installer copies one of:
-- `templates/startup-tip.zh.txt`
+- `templates/startup-tip.zh-CN.txt`
 - `templates/startup-tip.en.txt`
 
 to:
