@@ -1,0 +1,27 @@
+========================================
+zsh-ai-setup startup tip
+========================================
+Common shortcuts:
+- ll / la / l
+- .. / ... / ....
+- Alt+f: quick command fix (thefuck)
+- Up/Down: history substring search
+
+Config locations:
+- ~/.zshrc
+- ~/.zshenv
+- ~/.zsh-ai-setup/config/aliases.zsh
+- ~/.zsh-ai-setup/config/exports.zsh
+- ~/.zsh-ai-setup/config/plugins.zsh
+
+Plugin notes:
+- Required: zsh-autosuggestions, zsh-syntax-highlighting
+- Optional: zsh-completions, fzf-tab
+
+Startup tip control:
+- Disable: ./install.sh --show-startup-tips off ...
+- Once: ./install.sh --show-startup-tips once ...
+- Always: ./install.sh --show-startup-tips always ...
+
+Tip: run `zsh -n ~/.zshrc` after edits.
+========================================

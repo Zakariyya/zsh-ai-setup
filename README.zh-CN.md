@@ -1,20 +1,20 @@
 # zsh-ai-setup
 
-Reusable toolkit to package your real Zsh setup for Ubuntu / Debian / WSL.
+一个把你真实 Zsh 配置打包成可复用工具集的项目，目标系统为 Ubuntu / Debian / WSL。
 
-This project uses your actual files as source-of-truth:
+本项目以以下文件为唯一真源：
 - `configs/.zshrc`
 - `configs/.zshenv`
 
-It does **not** replace them with generic templates.
+不会用通用模板替换你的配置。
 
-## Goals
+## 项目目标
 
-1. Human users can install and reuse the setup easily.
-2. AI agents can run deterministic installation without guessing.
-3. Safe rerun with idempotent behavior and backup-before-overwrite.
+1. 人类用户可快速安装复用。
+2. AI 代理可按固定参数无歧义执行。
+3. 支持安全重跑、幂等与覆盖前备份。
 
-## Repository Structure
+## 目录结构
 
 ```text
 zsh-ai-setup/
@@ -43,32 +43,32 @@ zsh-ai-setup/
    └─ ai-usage.md
 ```
 
-## Supported Systems
+## 支持系统
 
 - Ubuntu
 - Debian
 - WSL
 
-Not targeted in this version:
-- Native Windows
-- macOS (extension point only)
+当前不覆盖：
+- 原生 Windows
+- macOS（仅预留扩展点）
 
-## Install (Interactive)
+## 交互安装
 
 ```bash
 chmod +x install.sh uninstall.sh scripts/*.sh
 ./install.sh --interactive
 ```
 
-Interactive prompts include:
-- language
-- optional plugin list
-- startup tip mode
-- set default shell or not
+交互项包括：
+- 语言
+- 可选插件
+- 启动提示模式
+- 是否设置默认 shell
 
-## Install (Non-interactive)
+## 非交互安装
 
-Required argument direction:
+固定参数方向：
 - `--lang zh|en`
 - `--interactive`
 - `--non-interactive`
@@ -79,63 +79,63 @@ Required argument direction:
 - `--dry-run`
 - `--force`
 
-Examples:
+示例：
 
 ```bash
 ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips off --set-default-shell yes --backup yes
 ./install.sh --lang en --non-interactive --install-plugins no --show-startup-tips once --set-default-shell no --backup yes --dry-run
 ```
 
-## Existing ~/.zshrc Handling
+## 处理已有 ~/.zshrc
 
-- Interactive mode: asks before overwrite.
-- Default behavior: backup first, then write.
-- Backup filename format:
+- 交互模式会询问是否覆盖。
+- 默认先备份再写入。
+- 备份名格式：
   - `.zshrc.backup-YYYYMMDD-xxxx`
-- Safety controls:
+- 安全控制：
   - `--backup yes|no`
   - `--dry-run`
   - `--force`
 
-## Startup Tips
+## 启动提示
 
-Modes:
+支持三种模式：
 - `always`
 - `once`
 - `off`
 
-Language follows `--lang` and loads from templates.
+提示内容按所选语言，从模板加载。
 
-## Plugins
+## 插件安装
 
-Required external plugins:
+必需外部插件：
 - `zsh-autosuggestions`
 - `zsh-syntax-highlighting`
 
-Optional external plugins:
+可选外部插件：
 - `zsh-completions`
 - `fzf-tab`
 
-Installation target:
+安装目录：
 - `${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins`
 
-Behavior:
-- existing plugin directory: skip by default
-- with `--force`: try update (`git pull --ff-only`)
+重跑策略：
+- 已存在默认跳过
+- `--force` 时尝试 `git pull --ff-only` 更新
 
-## Uninstall
+## 卸载
 
 ```bash
 ./uninstall.sh --interactive
 ./uninstall.sh --non-interactive --restore-backup yes --force
 ```
 
-Uninstall is conservative:
-- remove only files tracked/managed by this project
-- restore backup when available
-- do not delete unrelated user files
+卸载策略偏保守：
+- 仅删除本项目管理的内容
+- 能恢复备份则恢复
+- 不删除无关用户文件
 
-## Verification
+## 校验
 
 ```bash
 echo $SHELL
@@ -146,9 +146,9 @@ zsh -n ~/.zshrc
 zsh -n ~/.zshenv
 ```
 
-Open a new terminal and verify startup tip language/mode behavior.
+重开终端，确认启动提示语言和模式符合预期。
 
-## Reference
+## 参考
 
-Plugin install strategy follows the common Oh My Zsh `custom/plugins` git-clone model and is compatible with approaches discussed in:
+插件安装采用 Oh My Zsh `custom/plugins` 的 git-clone 方式，可参考：
 - https://github.com/Zakariyya/blog/issues/175

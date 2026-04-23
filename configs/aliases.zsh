@@ -1,0 +1,13 @@
+# zsh-ai-setup aliases (from your real zshrc)
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+alias d='dirs -v'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias j='z'
+alias zi='z -i'

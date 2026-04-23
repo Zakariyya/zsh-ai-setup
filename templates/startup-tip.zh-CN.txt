@@ -1,0 +1,27 @@
+========================================
+zsh-ai-setup 启动提示
+========================================
+常用快捷方式:
+- ll / la / l
+- .. / ... / ....
+- Alt+f: 快速纠错（thefuck）
+- Up/Down: 基于前缀的历史搜索
+
+配置位置:
+- ~/.zshrc
+- ~/.zshenv
+- ~/.zsh-ai-setup/config/aliases.zsh
+- ~/.zsh-ai-setup/config/exports.zsh
+- ~/.zsh-ai-setup/config/plugins.zsh
+
+插件说明:
+- 必装: zsh-autosuggestions, zsh-syntax-highlighting
+- 可选: zsh-completions, fzf-tab
+
+启动提示控制:
+- 关闭: ./install.sh --show-startup-tips off ...
+- 只显示一次: ./install.sh --show-startup-tips once ...
+- 总是显示: ./install.sh --show-startup-tips always ...
+
+提示: 修改后可执行 `zsh -n ~/.zshrc` 进行语法检查。
+========================================
