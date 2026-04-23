@@ -58,6 +58,10 @@ bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-
 
 Note: this command does not require cloning the repo and does not automatically read docs.
 
+Notes:
+- When using `curl | bash`, prefer `--set-default-shell no`
+- If you want to switch the default shell, run `chsh -s "$(command -v zsh)"` manually after install
+
 ### Mode B: doc-first instruction (safer)
 
 Send this prompt to an AI agent:

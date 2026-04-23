@@ -51,6 +51,8 @@ bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-
 ```
 
 说明：这条命令无需 clone 仓库；但它本身不会自动读取 `AI_SETUP.md` / `AI_USAGE.md`。
+- `curl | bash` 场景建议使用 `--set-default-shell no`
+- 如果需要切换默认 shell，请安装完成后手动执行 `chsh -s "$(command -v zsh)"`
 
 ## 6. 先读后执行指令（推荐给代理型 AI）
 

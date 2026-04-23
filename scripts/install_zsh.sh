@@ -62,6 +62,11 @@ try_set_default_shell() {
     return 0
   fi
 
+  if [[ ! -t 0 || ! -t 1 ]]; then
+    log_warn "$(i18n_msg warn_chsh_non_tty)"
+    return 0
+  fi
+
   if chsh -s "$zsh_path" "$USER"; then
     log_info "$(i18n_msg set_default_shell_ok)"
   else

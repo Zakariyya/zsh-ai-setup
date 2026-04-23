@@ -16,6 +16,10 @@
 bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell no --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
+说明：
+- `curl | bash` 场景建议使用 `--set-default-shell no`
+- 如果需要切换默认 shell，请安装完成后手动执行 `chsh -s "$(command -v zsh)"`
+
 ### B. 先读后执行模式（更稳）
 
 特点：

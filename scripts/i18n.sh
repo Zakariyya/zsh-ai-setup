@@ -53,6 +53,7 @@ i18n_msg() {
       err_need_git) echo "缺少 git，请先安装 git" ;;
       err_need_sudo) echo "需要 sudo 权限安装 zsh" ;;
       err_plugin_install) echo "插件安装失败" ;;
+      warn_chsh_non_tty) echo "当前不是交互式终端，已跳过默认 shell 切换；请安装完成后手动执行：chsh -s \"\$(command -v zsh)\"" ;;
       err_chsh) echo "设置默认 shell 失败，请手动执行 chsh" ;;
       verify_cmds) echo "执行以下命令验证：echo $SHELL; zsh --version; command -v codex" ;;
       *) echo "$key" ;;
@@ -92,6 +93,7 @@ i18n_msg() {
       err_need_git) echo "git is required" ;;
       err_need_sudo) echo "sudo is required to install zsh" ;;
       err_plugin_install) echo "Plugin installation failed" ;;
+      warn_chsh_non_tty) echo "No interactive TTY detected; skipped default shell switch. Run: chsh -s \"\$(command -v zsh)\" after install" ;;
       err_chsh) echo "Failed to set default shell; run chsh manually" ;;
       verify_cmds) echo "Run: echo $SHELL; zsh --version; command -v codex" ;;
       *) echo "$key" ;;
