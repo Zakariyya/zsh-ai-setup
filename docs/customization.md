@@ -3,7 +3,7 @@
 Primary docs:
 - `../README.md`
 - `../README.en.md`
-- `./AI_SETUP.md`
+- `../AI_SETUP.md`
 
 ## 1. Keep source-of-truth
 

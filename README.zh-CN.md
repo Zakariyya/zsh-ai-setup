@@ -2,8 +2,8 @@
 
 本文件是中文入口别名，主文档请优先看：
 
-- [README.md（中文主文档）](../README.md)
-- [README.en.md（English）](../README.en.md)
+- [README.md（中文主文档）](./README.md)
+- [README.en.md（English）](./README.en.md)
 
 AI 文档入口：
 
