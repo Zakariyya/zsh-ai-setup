@@ -2,6 +2,7 @@
 
 ensure_zsh_installed() {
   local dry_run="$1"
+  local apt_cmd=""
 
   if command -v zsh >/dev/null 2>&1; then
     return 0
@@ -12,13 +13,17 @@ ensure_zsh_installed() {
     return 0
   fi
 
-  if ! command -v sudo >/dev/null 2>&1; then
+  if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
+    apt_cmd="apt-get"
+  elif command -v sudo >/dev/null 2>&1; then
+    apt_cmd="sudo apt-get"
+  else
     log_error "$(i18n_msg err_need_sudo)"
     return 1
   fi
 
-  sudo apt-get update
-  sudo apt-get install -y zsh
+  $apt_cmd update
+  $apt_cmd install -y zsh
   log_info "$(i18n_msg zsh_install_done)"
 }
 
