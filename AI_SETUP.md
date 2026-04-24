@@ -50,7 +50,6 @@ zsh -n ~/.zshenv
 bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-说明：这条命令会通过单文件 `wget -O install.sh ...` 下载后执行；但它本身不会自动读取 `AI_SETUP.md` / `AI_USAGE.md`。
 - 如果你希望默认切换到 `zsh`，请使用 `--set-default-shell yes`
 - 如果需要切换默认 shell，请安装完成后手动执行 `chsh -s "$(command -v zsh)"`
 
@@ -69,6 +68,7 @@ bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya
 - `--show-startup-tips always|once|off`
 - `--set-default-shell yes|no`
 - `--backup yes|no`
+- `--tab-double-tap-threshold seconds`
 - `--optional-plugins p1/p2`
 - `--dry-run`
 - `--force`

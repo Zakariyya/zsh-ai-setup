@@ -122,6 +122,7 @@ INSTALL_PLUGINS="yes"
 SHOW_STARTUP_TIPS="always"
 SET_DEFAULT_SHELL="yes"
 BACKUP_MODE="yes"
+TAB_DOUBLE_TAP_THRESHOLD="0.25"
 DRY_RUN="no"
 FORCE="no"
 OPTIONAL_PLUGINS=""
@@ -129,6 +130,7 @@ SEEN_INSTALL_PLUGINS="no"
 SEEN_SHOW_STARTUP_TIPS="no"
 SEEN_SET_DEFAULT_SHELL="no"
 SEEN_BACKUP="no"
+SEEN_TAB_DOUBLE_TAP_THRESHOLD="no"
 SEEN_OPTIONAL_PLUGINS="no"
 SEEN_DRY_RUN="no"
 SEEN_FORCE="no"
@@ -145,6 +147,7 @@ Options:
   --show-startup-tips always|once|off
   --set-default-shell yes|no
   --backup yes|no
+  --tab-double-tap-threshold seconds
   --optional-plugins p1/p2
   --dry-run
   --force
@@ -230,6 +233,24 @@ normalize_startup_tips_input() {
     2|once|首次|仅首次) echo "once" ;;
     3|off|关闭) echo "off" ;;
     *) echo "" ;;
+  esac
+}
+
+normalize_tab_threshold_input() {
+  local raw="${1:-}"
+  raw="${raw// /}"
+  raw="${raw//，/.}"
+  raw="${raw//,/.}"
+  case "$raw" in
+    "") echo "" ;;
+    0|0.0|0.00|0.000) echo "" ;;
+    *)
+      if [[ "$raw" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
+        echo "$raw"
+      else
+        echo ""
+      fi
+      ;;
   esac
 }
 
@@ -390,6 +411,7 @@ is_startup_tip_mode_only_update() {
   [[ "$SEEN_INSTALL_PLUGINS" == "no" ]] || return 1
   [[ "$SEEN_SET_DEFAULT_SHELL" == "no" ]] || return 1
   [[ "$SEEN_BACKUP" == "no" ]] || return 1
+  [[ "$SEEN_TAB_DOUBLE_TAP_THRESHOLD" == "no" ]] || return 1
   [[ "$SEEN_OPTIONAL_PLUGINS" == "no" ]] || return 1
   [[ "$SEEN_DRY_RUN" == "no" ]] || return 1
   [[ "$SEEN_FORCE" == "no" ]] || return 1
@@ -398,7 +420,7 @@ is_startup_tip_mode_only_update() {
 
 update_startup_tip_mode_only() {
   local setup_home config_env state_file
-  local current_lang current_config_dir current_install_script current_tip_file
+  local current_lang current_config_dir current_install_script current_tip_file current_tab_threshold
 
   setup_home="${XDG_CONFIG_HOME:-$HOME/.config}/zsh-ai-setup"
   config_env="$setup_home/config.env"
@@ -408,6 +430,7 @@ update_startup_tip_mode_only() {
   current_config_dir="$HOME/.zsh-ai-setup/config"
   current_install_script="$HOME/.zsh-ai-setup/installer/install.sh"
   current_tip_file="$setup_home/startup-tip.txt"
+  current_tab_threshold="$TAB_DOUBLE_TAP_THRESHOLD"
 
   if [[ -f "$config_env" ]]; then
     # shellcheck disable=SC1090
@@ -416,6 +439,7 @@ update_startup_tip_mode_only() {
     current_config_dir="${ZSH_AI_CONFIG_DIR:-$current_config_dir}"
     current_install_script="${ZSH_AI_INSTALL_SCRIPT:-$current_install_script}"
     current_tip_file="${ZSH_AI_STARTUP_TIP_FILE:-$current_tip_file}"
+    current_tab_threshold="${ZSH_TAB_DOUBLE_TAP_THRESHOLD:-$current_tab_threshold}"
   fi
 
   ensure_dir "$setup_home"
@@ -426,6 +450,7 @@ export ZSH_AI_CONFIG_DIR="$current_config_dir"
 export ZSH_AI_INSTALL_SCRIPT="$current_install_script"
 export ZSH_AI_STARTUP_TIP_MODE="$SHOW_STARTUP_TIPS"
 export ZSH_AI_STARTUP_TIP_FILE="$current_tip_file"
+export ZSH_TAB_DOUBLE_TAP_THRESHOLD="$current_tab_threshold"
 ENV
 
   if [[ "$SHOW_STARTUP_TIPS" == "once" ]]; then
@@ -451,6 +476,8 @@ while [[ $# -gt 0 ]]; do
       SET_DEFAULT_SHELL="${2:-}"; SEEN_SET_DEFAULT_SHELL="yes"; shift 2 ;;
     --backup)
       BACKUP_MODE="${2:-}"; SEEN_BACKUP="yes"; shift 2 ;;
+    --tab-double-tap-threshold)
+      TAB_DOUBLE_TAP_THRESHOLD="${2:-}"; SEEN_TAB_DOUBLE_TAP_THRESHOLD="yes"; shift 2 ;;
     --optional-plugins)
       OPTIONAL_PLUGINS="${2:-}"; SEEN_OPTIONAL_PLUGINS="yes"; shift 2 ;;
     --dry-run)
@@ -490,6 +517,14 @@ case "$INSTALL_PLUGINS" in yes|no) ;; *) log_error "--install-plugins yes|no"; e
 case "$SHOW_STARTUP_TIPS" in always|once|off) ;; *) log_error "--show-startup-tips always|once|off"; exit 1 ;; esac
 case "$SET_DEFAULT_SHELL" in yes|no) ;; *) log_error "--set-default-shell yes|no"; exit 1 ;; esac
 case "$BACKUP_MODE" in yes|no) ;; *) log_error "--backup yes|no"; exit 1 ;; esac
+if [[ -n "$TAB_DOUBLE_TAP_THRESHOLD" ]]; then
+  _tab_threshold_norm="$(normalize_tab_threshold_input "$TAB_DOUBLE_TAP_THRESHOLD")"
+  if [[ -z "$_tab_threshold_norm" ]]; then
+    log_error "--tab-double-tap-threshold must be a positive number, e.g. 0.25"
+    exit 1
+  fi
+  TAB_DOUBLE_TAP_THRESHOLD="$_tab_threshold_norm"
+fi
 
 if is_startup_tip_mode_only_update; then
   update_startup_tip_mode_only
@@ -507,6 +542,10 @@ if [[ "$RUN_MODE" == "interactive" ]]; then
   _plugins=""
   _norm_plugins=""
   _optional=""
+  _tab_threshold_enable=""
+  _norm_tab_threshold_enable=""
+  _tab_threshold_value=""
+  _norm_tab_threshold_value=""
   _tips=""
   _norm_tips=""
   _shell=""
@@ -554,6 +593,26 @@ if [[ "$RUN_MODE" == "interactive" ]]; then
     else
       log_error "$(i18n_msg err_arg): --optional-plugins"
       exit 1
+    fi
+  fi
+
+  if [[ "$INSTALL_PLUGINS" == "yes" ]]; then
+    print_prompt_line ""
+    read_interactive "$(i18n_msg prompt_tab_threshold_enable) " _tab_threshold_enable
+    _norm_tab_threshold_enable="$(normalize_yes_no_input "${_tab_threshold_enable:-}")"
+    if [[ "$_norm_tab_threshold_enable" == "yes" ]]; then
+      while true; do
+        read_interactive "$(i18n_msg prompt_tab_threshold_value) " _tab_threshold_value
+        if [[ -z "${_tab_threshold_value:-}" ]]; then
+          TAB_DOUBLE_TAP_THRESHOLD="0.25"
+          break
+        fi
+        _norm_tab_threshold_value="$(normalize_tab_threshold_input "${_tab_threshold_value:-}")"
+        if [[ -n "$_norm_tab_threshold_value" ]]; then
+          TAB_DOUBLE_TAP_THRESHOLD="$_norm_tab_threshold_value"
+          break
+        fi
+      done
     fi
   fi
 
@@ -692,6 +751,7 @@ export ZSH_AI_CONFIG_DIR="$CONFIG_DIR"
 export ZSH_AI_INSTALL_SCRIPT="$INSTALLER_SCRIPT"
 export ZSH_AI_STARTUP_TIP_MODE="$SHOW_STARTUP_TIPS"
 export ZSH_AI_STARTUP_TIP_FILE="$STARTUP_TIP_FILE"
+export ZSH_TAB_DOUBLE_TAP_THRESHOLD="$TAB_DOUBLE_TAP_THRESHOLD"
 ENV
 
   cat > "$STATE_FILE" <<STATE

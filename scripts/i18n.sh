@@ -55,6 +55,8 @@ i18n_msg() {
       removed_path) echo "已移除" ;;
       prompt_lang) echo "选择语言（1 中文 / 2 English）" ;;
       prompt_install_plugins) echo "是否安装插件？（1 是 / 2 否，回车默认 1）" ;;
+      prompt_tab_threshold_enable) echo "是否自定义 Tab 连击判定秒数？（1 是 / 2 否，回车默认 2）" ;;
+      prompt_tab_threshold_value) echo "请输入 Tab 连击判定秒数（示例：0.25/0.35/0.45，回车默认 0.25）" ;;
       prompt_startup_tips) echo "启动提示模式（1 总是 / 2 仅首次 / 3 关闭，回车默认 1）" ;;
       prompt_set_shell) echo "是否设置 zsh 为默认 shell？（1 是 / 2 否，回车默认 1）" ;;
       prompt_optional_plugins) echo "选择可选插件（输入编号，斜杠 / 分隔；1=全选；回车默认全选）" ;;
@@ -113,6 +115,8 @@ i18n_msg() {
       removed_path) echo "Removed" ;;
       prompt_lang) echo "Choose language (1 Chinese / 2 English)" ;;
       prompt_install_plugins) echo "Install plugins? (1 yes / 2 no, Enter defaults to 1)" ;;
+      prompt_tab_threshold_enable) echo "Customize Tab double-tap threshold seconds? (1 yes / 2 no, Enter defaults to 2)" ;;
+      prompt_tab_threshold_value) echo "Enter Tab double-tap threshold seconds (examples: 0.25/0.35/0.45, Enter defaults to 0.25)" ;;
       prompt_startup_tips) echo "Startup tips mode (1 always / 2 once / 3 off, Enter defaults to 1)" ;;
       prompt_set_shell) echo "Set zsh as default shell? (1 yes / 2 no, Enter defaults to 1)" ;;
       prompt_optional_plugins) echo "Choose optional plugins (numbers, slash-separated '/'; 1=all; Enter defaults to all)" ;;

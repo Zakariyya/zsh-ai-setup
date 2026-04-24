@@ -21,16 +21,6 @@ AI 文档入口（建议置顶给 AI）：
 
 ## 🚀 安装（人类用户）
 
-推荐方式：单文件脚本入口。
-
-方式：单文件脚本入口（`wget`，不依赖 git）
-
-```bash
-set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh
-```
-
-完成后都按同一执行基线：
-
 交互模式：
 
 ```bash
@@ -50,8 +40,6 @@ set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-se
 ```bash
 bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
-
-说明：该命令会通过单文件 `wget -O install.sh ...` 下载并安装校验，不会自动读取文档。
 
 说明：
 - 如果你希望默认切换到 `zsh`，请使用 `--set-default-shell yes`
@@ -74,27 +62,28 @@ bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya
 
 ## 🔧 常用参数
 
-- `--lang zh|en`
-- `--interactive`
-- `--non-interactive`
-- `--install-plugins yes|no`
-- `--show-startup-tips always|once|off`
-- `--set-default-shell yes|no`
-- `--backup yes|no`
-- `--optional-plugins p1/p2`
-- `--dry-run`
-- `--force`
+- `--lang zh|en`：设置安装语言与提示语言。
+- `--interactive`：交互式提问安装（适合人工操作）。
+- `--non-interactive`：无交互安装（适合脚本/AI 执行）。
+- `--install-plugins yes|no`：是否安装插件（必装+可选）。
+- `--show-startup-tips always|once|off`：启动提示显示策略（总是/仅一次/关闭）。
+- `--set-default-shell yes|no`：是否尝试把默认 shell 切换为 zsh。
+- `--backup yes|no`：写入前是否备份已有配置文件。
+- `--tab-double-tap-threshold 秒数`：Tab 双击判定阈值（如 `0.25`、`0.35`、`0.45`）。
+- `--optional-plugins p1/p2`：指定可选插件，使用 `/` 分隔（如 `zsh-completions/fzf-tab/thefuck`）。
+- `--dry-run`：只预览将执行的动作，不落盘写入。
+- `--force`：强制执行（如覆盖确认、插件更新场景）。
 
 ## 🧩 插件说明
 
 必装插件：
-- `zsh-autosuggestions`
-- `zsh-syntax-highlighting`
+- `zsh-autosuggestions`：按历史输入给出命令建议。
+- `zsh-syntax-highlighting`：为命令行语法高亮，减少误输。
 
 可选插件：
-- `zsh-completions`
-- `fzf-tab`
-- `thefuck`
+- `zsh-completions`：补充更多命令与参数补全定义。
+- `fzf-tab`：将 Tab 补全切换为可筛选的模糊选择。
+- `thefuck`：纠正常见输错命令（配合 `fuck` 使用）。
 
 默认安装位置：
 - `${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins`

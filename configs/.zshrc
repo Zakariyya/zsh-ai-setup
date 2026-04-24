@@ -555,7 +555,7 @@ esac
 # 2) If no suggestion: keep native completion behavior.
 # 3) If Tab is double-tapped quickly: force native completion/menu.
 typeset -gF _TAB_LAST_TS=0
-typeset -gF ZSH_TAB_DOUBLE_TAP_THRESHOLD=0.25
+typeset -gF ZSH_TAB_DOUBLE_TAP_THRESHOLD="${ZSH_TAB_DOUBLE_TAP_THRESHOLD:-0.25}"
 
 _zsh_tab_try_fix_unknown_command_head() {
   emulate -L zsh
