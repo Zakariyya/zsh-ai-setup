@@ -34,8 +34,7 @@ Recommended overrides:
 3. Reinstall with:
 
 ```bash
-chmod +x install.sh uninstall.sh scripts/*.sh
-./install.sh --non-interactive --install-plugins yes --optional-plugins your-plugin --force
+set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --non-interactive --install-plugins yes --optional-plugins your-plugin --force
 ```
 
 ## 4. Startup tip language

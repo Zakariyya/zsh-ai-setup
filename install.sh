@@ -62,8 +62,33 @@ bootstrap_remote_root() {
   ROOT_DIR="$temp_root"
 }
 
+has_local_bundle() {
+  local rel
+  for rel in \
+    scripts/i18n.sh \
+    scripts/lib.sh \
+    scripts/detect_os.sh \
+    scripts/install_zsh.sh \
+    scripts/install_thefuck.sh \
+    scripts/install_plugins.sh \
+    configs/.zshrc \
+    configs/.zshenv \
+    configs/aliases.zsh \
+    configs/exports.zsh \
+    configs/plugins.zsh \
+    templates/startup-tip.en.txt \
+    templates/startup-tip.zh-CN.txt
+  do
+    [[ -r "$ROOT_DIR/$rel" ]] || return 1
+  done
+  return 0
+}
+
 if [[ -n "${BASH_SOURCE[0]:-}" && -r "${BASH_SOURCE[0]}" ]]; then
   ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  if ! has_local_bundle; then
+    bootstrap_remote_root
+  fi
 else
   bootstrap_remote_root
 fi
