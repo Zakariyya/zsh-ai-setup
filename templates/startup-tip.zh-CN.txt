@@ -15,13 +15,14 @@ zsh-ai-setup 启动提示
 - ~/.zsh-ai-setup/config/plugins.zsh
 
 插件说明:
-- 必装: zsh-autosuggestions, zsh-syntax-highlighting
-- 可选: zsh-completions, fzf-tab
+- 必装: zsh-autosuggestions, zsh-syntax-highlighting __REQUIRED_PLUGIN_STATUS__
+- 可选: zsh-completions, fzf-tab, thefuck __OPTIONAL_PLUGIN_STATUS__
+- thefuck: __THEFUCK_STATUS__
 
 启动提示控制:
-- 关闭: ./install.sh --show-startup-tips off ...
-- 只显示一次: ./install.sh --show-startup-tips once ...
-- 总是显示: ./install.sh --show-startup-tips always ...
+- 关闭: __INSTALL_SCRIPT__ --show-startup-tips off
+- 只显示一次: __INSTALL_SCRIPT__ --show-startup-tips once
+- 总是显示: __INSTALL_SCRIPT__ --show-startup-tips always
 
 提示: 修改后可执行 `zsh -n ~/.zshrc` 进行语法检查。
 ========================================

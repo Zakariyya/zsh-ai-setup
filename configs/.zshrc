@@ -522,6 +522,7 @@ show_shortcuts() {
 }
 show_startup_tip() {
   emulate -L zsh
+  typeset -g ZSH_AI_INSTALL_SCRIPT="${ZSH_AI_INSTALL_SCRIPT:-$HOME/.zsh-ai-setup/installer/install.sh}"
   typeset -g ZSH_AI_STARTUP_TIP_FILE="${ZSH_AI_STARTUP_TIP_FILE:-$ZSH_AI_SETUP_HOME/startup-tip.txt}"
   if [[ -f "$ZSH_AI_STARTUP_TIP_FILE" ]]; then
     command cat "$ZSH_AI_STARTUP_TIP_FILE"

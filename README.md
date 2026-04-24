@@ -21,13 +21,7 @@ AI 文档入口（建议置顶给 AI）：
 
 ## 🚀 安装（人类用户）
 
-无需先下载仓库，支持直接联网安装。
-
-直接安装：
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --interactive
-```
+先进入仓库目录（已 clone 后），统一使用同一执行基线。
 
 交互模式：
 
@@ -39,12 +33,7 @@ chmod +x install.sh uninstall.sh scripts/*.sh
 非交互模式：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
-```
-
-如果你已经在本仓库目录中，也可以执行：
-
-```bash
+chmod +x install.sh uninstall.sh scripts/*.sh
 ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
 ```
 
@@ -53,14 +42,13 @@ curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install
 ### 方式 A：直接执行（最快）
 
 ```bash
-bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
+bash -lc 'set -e; cd /path/to/zsh-ai-setup; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-说明：该命令无需 clone 仓库，会直接安装并校验，不会自动读取文档。
+说明：该命令默认你已经获取仓库并进入目录；它会直接安装并校验，不会自动读取文档。
 
 说明：
 - 如果你希望默认切换到 `zsh`，请使用 `--set-default-shell yes`
-- 在 `curl | bash` 这类非交互场景下，脚本会跳过 `chsh`，避免假交互失败
 - 如果需要切换默认 shell，请安装完成后手动执行 `chsh -s "$(command -v zsh)"`
 
 ### 方式 B：先读文档再执行（更稳）
@@ -87,7 +75,7 @@ bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-
 - `--show-startup-tips always|once|off`
 - `--set-default-shell yes|no`
 - `--backup yes|no`
-- `--optional-plugins p1,p2`
+- `--optional-plugins p1/p2`
 - `--dry-run`
 - `--force`
 
@@ -100,6 +88,7 @@ bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-
 可选插件：
 - `zsh-completions`
 - `fzf-tab`
+- `thefuck`
 
 默认安装位置：
 - `${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins`

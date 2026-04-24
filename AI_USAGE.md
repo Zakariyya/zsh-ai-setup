@@ -13,12 +13,11 @@
 - 直接执行安装+校验命令
 
 ```bash
-bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
+bash -lc 'set -e; cd /path/to/zsh-ai-setup; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
 说明：
 - 如果你希望默认切换到 `zsh`，请使用 `--set-default-shell yes`
-- 在 `curl | bash` 这类非交互场景下，脚本会跳过 `chsh`，避免假交互失败
 - 如果需要切换默认 shell，请安装完成后手动执行 `chsh -s "$(command -v zsh)"`
 
 ### B. 先读后执行模式（更稳）
@@ -36,8 +35,10 @@ bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-
 ## 2) 推荐非交互流程
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes --dry-run
-curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
+cd /path/to/zsh-ai-setup
+chmod +x install.sh uninstall.sh scripts/*.sh
+./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes --dry-run
+./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
 ```
 
 ## 3) 最小校验项
@@ -54,5 +55,5 @@ zsh -n ~/.zshenv
 ## 4) 常见误区
 
 - `bash -lc '...'` 命令本身不会自动读取 `AI_SETUP.md`。
-- 现在支持直接联网安装，不需要先 clone 本仓库。
+- 现在文档统一按“已获取仓库后执行”给出命令，减少执行歧义。
 - 如果希望 AI 一定先读文档，请使用“先读后执行模式”的文字指令。

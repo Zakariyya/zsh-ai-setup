@@ -15,13 +15,14 @@ Config locations:
 - ~/.zsh-ai-setup/config/plugins.zsh
 
 Plugin notes:
-- Required: zsh-autosuggestions, zsh-syntax-highlighting
-- Optional: zsh-completions, fzf-tab
+- Required: zsh-autosuggestions, zsh-syntax-highlighting __REQUIRED_PLUGIN_STATUS__
+- Optional: zsh-completions, fzf-tab, thefuck __OPTIONAL_PLUGIN_STATUS__
+- thefuck: __THEFUCK_STATUS__
 
 Startup tip control:
-- Disable: ./install.sh --show-startup-tips off ...
-- Once: ./install.sh --show-startup-tips once ...
-- Always: ./install.sh --show-startup-tips always ...
+- Disable: __INSTALL_SCRIPT__ --show-startup-tips off
+- Once: __INSTALL_SCRIPT__ --show-startup-tips once
+- Always: __INSTALL_SCRIPT__ --show-startup-tips always
 
 Tip: run `zsh -n ~/.zshrc` after edits.
 ========================================

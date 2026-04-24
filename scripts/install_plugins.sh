@@ -8,6 +8,19 @@ ZSH_AI_PLUGIN_REPO=(
   [fzf-tab]="https://github.com/Aloxaf/fzf-tab.git"
 )
 
+typeset -ga ZSH_AI_REQUIRED_EXTERNAL_PLUGINS
+ZSH_AI_REQUIRED_EXTERNAL_PLUGINS=(
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
+
+typeset -ga ZSH_AI_OPTIONAL_EXTERNAL_PLUGINS
+ZSH_AI_OPTIONAL_EXTERNAL_PLUGINS=(
+  zsh-completions
+  fzf-tab
+  thefuck
+)
+
 install_one_plugin() {
   local plugin="$1"
   local plugin_root="$2"
@@ -16,6 +29,11 @@ install_one_plugin() {
   local manifest="$5"
 
   local repo target
+  if [[ "$plugin" == "thefuck" ]]; then
+    ensure_thefuck_installed "$dry_run"
+    return $?
+  fi
+
   repo="${ZSH_AI_PLUGIN_REPO[$plugin]:-}"
   target="$plugin_root/$plugin"
 
@@ -67,9 +85,8 @@ install_plugins() {
 
   log_info "$(i18n_msg install_plugins)"
 
-  local required=(zsh-autosuggestions zsh-syntax-highlighting)
   local p
-  for p in "${required[@]}"; do
+  for p in "${ZSH_AI_REQUIRED_EXTERNAL_PLUGINS[@]}"; do
     install_one_plugin "$p" "$plugin_root" "$dry_run" "$force" "$manifest" || {
       log_error "$(i18n_msg err_plugin_install): $p"
       return 1
@@ -77,6 +94,8 @@ install_plugins() {
   done
 
   if [[ -n "$optional_csv" ]]; then
+    optional_csv="${optional_csv//，/,}"
+    optional_csv="${optional_csv//\//,}"
     local oldifs
     oldifs="$IFS"
     IFS=','

@@ -34,6 +34,7 @@ Recommended overrides:
 3. Reinstall with:
 
 ```bash
+chmod +x install.sh uninstall.sh scripts/*.sh
 ./install.sh --non-interactive --install-plugins yes --optional-plugins your-plugin --force
 ```
 

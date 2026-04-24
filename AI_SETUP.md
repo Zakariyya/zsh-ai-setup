@@ -34,8 +34,10 @@ command -v git
 先 dry-run，再正式安装，再校验。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes --dry-run
-curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
+cd /path/to/zsh-ai-setup
+chmod +x install.sh uninstall.sh scripts/*.sh
+./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes --dry-run
+./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
 echo "$SHELL"
 zsh --version
 test -f ~/.zshrc
@@ -47,12 +49,11 @@ zsh -n ~/.zshenv
 ## 5. 直接执行命令（不读文档）
 
 ```bash
-bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh | bash -s -- --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
+bash -lc 'set -e; cd /path/to/zsh-ai-setup; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-说明：这条命令无需 clone 仓库；但它本身不会自动读取 `AI_SETUP.md` / `AI_USAGE.md`。
+说明：这条命令默认仓库已获取并可进入；但它本身不会自动读取 `AI_SETUP.md` / `AI_USAGE.md`。
 - 如果你希望默认切换到 `zsh`，请使用 `--set-default-shell yes`
-- 在 `curl | bash` 这类非交互场景下，脚本会跳过 `chsh`，避免假交互失败
 - 如果需要切换默认 shell，请安装完成后手动执行 `chsh -s "$(command -v zsh)"`
 
 ## 6. 先读后执行指令（推荐给代理型 AI）
@@ -70,7 +71,7 @@ bash -lc 'set -e; curl -fsSL https://raw.githubusercontent.com/Zakariyya/zsh-ai-
 - `--show-startup-tips always|once|off`
 - `--set-default-shell yes|no`
 - `--backup yes|no`
-- `--optional-plugins p1,p2`
+- `--optional-plugins p1/p2`
 - `--dry-run`
 - `--force`
 
