@@ -13,7 +13,7 @@
 - 直接执行安装+校验命令
 
 ```bash
-bash -lc 'set -e; cd /path/to/zsh-ai-setup; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
+bash -lc 'set -e; mkdir -p /tmp/zsh-ai-setup && cd /tmp/zsh-ai-setup; wget -qO install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh; wget -qO uninstall.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/uninstall.sh; mkdir -p scripts; wget -qO scripts/i18n.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/i18n.sh; wget -qO scripts/lib.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/lib.sh; wget -qO scripts/detect_os.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/detect_os.sh; wget -qO scripts/install_zsh.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_zsh.sh; wget -qO scripts/install_thefuck.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_thefuck.sh; wget -qO scripts/install_plugins.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_plugins.sh; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
 说明：
@@ -35,7 +35,16 @@ bash -lc 'set -e; cd /path/to/zsh-ai-setup; chmod +x install.sh uninstall.sh scr
 ## 2) 推荐非交互流程
 
 ```bash
-cd /path/to/zsh-ai-setup
+mkdir -p /tmp/zsh-ai-setup && cd /tmp/zsh-ai-setup
+wget -qO install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh
+wget -qO uninstall.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/uninstall.sh
+mkdir -p scripts
+wget -qO scripts/i18n.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/i18n.sh
+wget -qO scripts/lib.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/lib.sh
+wget -qO scripts/detect_os.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/detect_os.sh
+wget -qO scripts/install_zsh.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_zsh.sh
+wget -qO scripts/install_thefuck.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_thefuck.sh
+wget -qO scripts/install_plugins.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_plugins.sh
 chmod +x install.sh uninstall.sh scripts/*.sh
 ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes --dry-run
 ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes

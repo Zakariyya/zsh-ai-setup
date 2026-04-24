@@ -34,7 +34,16 @@ command -v git
 先 dry-run，再正式安装，再校验。
 
 ```bash
-cd /path/to/zsh-ai-setup
+mkdir -p /tmp/zsh-ai-setup && cd /tmp/zsh-ai-setup
+wget -qO install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh
+wget -qO uninstall.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/uninstall.sh
+mkdir -p scripts
+wget -qO scripts/i18n.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/i18n.sh
+wget -qO scripts/lib.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/lib.sh
+wget -qO scripts/detect_os.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/detect_os.sh
+wget -qO scripts/install_zsh.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_zsh.sh
+wget -qO scripts/install_thefuck.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_thefuck.sh
+wget -qO scripts/install_plugins.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_plugins.sh
 chmod +x install.sh uninstall.sh scripts/*.sh
 ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes --dry-run
 ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
@@ -49,10 +58,10 @@ zsh -n ~/.zshenv
 ## 5. 直接执行命令（不读文档）
 
 ```bash
-bash -lc 'set -e; cd /path/to/zsh-ai-setup; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
+bash -lc 'set -e; mkdir -p /tmp/zsh-ai-setup && cd /tmp/zsh-ai-setup; wget -qO install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh; wget -qO uninstall.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/uninstall.sh; mkdir -p scripts; wget -qO scripts/i18n.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/i18n.sh; wget -qO scripts/lib.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/lib.sh; wget -qO scripts/detect_os.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/detect_os.sh; wget -qO scripts/install_zsh.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_zsh.sh; wget -qO scripts/install_thefuck.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_thefuck.sh; wget -qO scripts/install_plugins.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_plugins.sh; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-说明：这条命令默认仓库已获取并可进入；但它本身不会自动读取 `AI_SETUP.md` / `AI_USAGE.md`。
+说明：这条命令会通过 `wget` 分段下载后执行；但它本身不会自动读取 `AI_SETUP.md` / `AI_USAGE.md`。
 - 如果你希望默认切换到 `zsh`，请使用 `--set-default-shell yes`
 - 如果需要切换默认 shell，请安装完成后手动执行 `chsh -s "$(command -v zsh)"`
 

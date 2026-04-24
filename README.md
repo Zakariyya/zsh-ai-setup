@@ -21,7 +21,24 @@ AI 文档入口（建议置顶给 AI）：
 
 ## 🚀 安装（人类用户）
 
-先进入仓库目录（已 clone 后），统一使用同一执行基线。
+推荐两种方式，二选一。
+
+方式：直接脚本地址分段执行（`wget`，不依赖 git）
+
+```bash
+mkdir -p /tmp/zsh-ai-setup && cd /tmp/zsh-ai-setup
+wget -qO install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh
+wget -qO uninstall.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/uninstall.sh
+mkdir -p scripts
+wget -qO scripts/i18n.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/i18n.sh
+wget -qO scripts/lib.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/lib.sh
+wget -qO scripts/detect_os.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/detect_os.sh
+wget -qO scripts/install_zsh.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_zsh.sh
+wget -qO scripts/install_thefuck.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_thefuck.sh
+wget -qO scripts/install_plugins.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_plugins.sh
+```
+
+完成后都按同一执行基线：
 
 交互模式：
 
@@ -42,10 +59,10 @@ chmod +x install.sh uninstall.sh scripts/*.sh
 ### 方式 A：直接执行（最快）
 
 ```bash
-bash -lc 'set -e; cd /path/to/zsh-ai-setup; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
+bash -lc 'set -e; mkdir -p /tmp/zsh-ai-setup && cd /tmp/zsh-ai-setup; wget -qO install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh; wget -qO uninstall.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/uninstall.sh; mkdir -p scripts; wget -qO scripts/i18n.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/i18n.sh; wget -qO scripts/lib.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/lib.sh; wget -qO scripts/detect_os.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/detect_os.sh; wget -qO scripts/install_zsh.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_zsh.sh; wget -qO scripts/install_thefuck.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_thefuck.sh; wget -qO scripts/install_plugins.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_plugins.sh; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-说明：该命令默认你已经获取仓库并进入目录；它会直接安装并校验，不会自动读取文档。
+说明：该命令会通过 `wget` 分段下载脚本并安装校验，不会自动读取文档。
 
 说明：
 - 如果你希望默认切换到 `zsh`，请使用 `--set-default-shell yes`
