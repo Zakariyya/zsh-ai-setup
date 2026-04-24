@@ -21,33 +21,22 @@ AI docs entry points:
 
 ## 🚀 Install (human)
 
-Use `wget` segmented download first, then run with one consistent baseline.
+Use single-file bootstrap (`wget`, no git required).
 
 ```bash
-mkdir -p /tmp/zsh-ai-setup && cd /tmp/zsh-ai-setup
-wget -qO install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh
-wget -qO uninstall.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/uninstall.sh
-mkdir -p scripts
-wget -qO scripts/i18n.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/i18n.sh
-wget -qO scripts/lib.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/lib.sh
-wget -qO scripts/detect_os.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/detect_os.sh
-wget -qO scripts/install_zsh.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_zsh.sh
-wget -qO scripts/install_thefuck.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_thefuck.sh
-wget -qO scripts/install_plugins.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_plugins.sh
+set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh
 ```
 
 Interactive mode:
 
 ```bash
-chmod +x install.sh uninstall.sh scripts/*.sh
-./install.sh --interactive
+set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --interactive
 ```
 
 Non-interactive mode:
 
 ```bash
-chmod +x install.sh uninstall.sh scripts/*.sh
-./install.sh --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
+set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes
 ```
 
 ## 🧠 AI execution (two modes)
@@ -55,10 +44,10 @@ chmod +x install.sh uninstall.sh scripts/*.sh
 ### Mode A: direct command (fastest)
 
 ```bash
-bash -lc 'set -e; mkdir -p /tmp/zsh-ai-setup && cd /tmp/zsh-ai-setup; wget -qO install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh; wget -qO uninstall.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/uninstall.sh; mkdir -p scripts; wget -qO scripts/i18n.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/i18n.sh; wget -qO scripts/lib.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/lib.sh; wget -qO scripts/detect_os.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/detect_os.sh; wget -qO scripts/install_zsh.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_zsh.sh; wget -qO scripts/install_thefuck.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_thefuck.sh; wget -qO scripts/install_plugins.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/scripts/install_plugins.sh; chmod +x install.sh uninstall.sh scripts/*.sh; ./install.sh --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
+bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-Note: this command downloads scripts via `wget` and does not automatically read docs.
+Note: this command downloads only `install.sh` via `wget -O` and does not automatically read docs.
 
 Notes:
 - If you want `zsh` to become the default shell, use `--set-default-shell yes`
@@ -69,7 +58,7 @@ Notes:
 Send this prompt to an AI agent:
 
 ```text
-Please read ./AI_SETUP.md and ./AI_USAGE.md first, then execute non-interactive installation and return full verification output.
+Please read https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/AI_SETUP.md and https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/AI_USAGE.md first, then execute non-interactive installation and return full verification output.
 ```
 
 ## 🛡️ Safety
