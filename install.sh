@@ -23,6 +23,8 @@ bootstrap_remote_root() {
 
   SELF_BOOTSTRAP_DIR="$temp_root"
 
+  printf '[INFO] Bootstrapping zsh-ai-setup bundle from remote...\n'
+
   fetch_one() {
     local rel="$1"
     local dst="$temp_root/$rel"
@@ -60,6 +62,7 @@ bootstrap_remote_root() {
   done
 
   ROOT_DIR="$temp_root"
+  printf '[INFO] Bootstrap bundle ready: %s\n' "$ROOT_DIR"
 }
 
 has_local_bundle() {
@@ -510,13 +513,17 @@ if [[ "$RUN_MODE" == "interactive" ]]; then
   _norm_shell=""
   declare -a _selected_optional=()
 
-  read_interactive "$(i18n_msg prompt_lang): " _lang
-  _norm_lang="$(normalize_lang_input "${_lang:-}")"
-  if [[ -n "$_norm_lang" ]]; then
-    set_i18n_lang "$_norm_lang"
-  elif [[ -n "${_lang:-}" ]]; then
-    set_i18n_lang "$_lang"
-  fi
+  while true; do
+    read_interactive "$(i18n_msg prompt_lang): " _lang
+    _norm_lang="$(normalize_lang_input "${_lang:-}")"
+    if [[ -n "$_norm_lang" ]]; then
+      set_i18n_lang "$_norm_lang"
+      break
+    fi
+  done
+
+  stage_banner "$(i18n_msg stage_depcheck)"
+  ensure_git_installed "$DRY_RUN"
 
   print_prompt_line ""
   read_interactive "$(i18n_msg prompt_install_plugins) " _plugins

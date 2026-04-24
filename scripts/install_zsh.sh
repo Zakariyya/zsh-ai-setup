@@ -1,5 +1,47 @@
 #!/usr/bin/env bash
 
+resolve_apt_install_cmd() {
+  if ! command -v apt-get >/dev/null 2>&1; then
+    return 1
+  fi
+
+  if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
+    printf '%s' "apt-get"
+    return 0
+  fi
+
+  if command -v sudo >/dev/null 2>&1; then
+    printf '%s' "sudo apt-get"
+    return 0
+  fi
+
+  return 1
+}
+
+ensure_git_installed() {
+  local dry_run="$1"
+  local apt_cmd=""
+
+  if command -v git >/dev/null 2>&1; then
+    return 0
+  fi
+
+  log_info "$(i18n_msg git_missing)"
+  if [[ "$dry_run" == "yes" ]]; then
+    return 0
+  fi
+
+  apt_cmd="$(resolve_apt_install_cmd || true)"
+  if [[ -z "$apt_cmd" ]]; then
+    log_error "$(i18n_msg err_need_git)"
+    return 1
+  fi
+
+  $apt_cmd update
+  $apt_cmd install -y git
+  log_info "$(i18n_msg git_install_done)"
+}
+
 ensure_zsh_installed() {
   local dry_run="$1"
   local apt_cmd=""
@@ -13,11 +55,8 @@ ensure_zsh_installed() {
     return 0
   fi
 
-  if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
-    apt_cmd="apt-get"
-  elif command -v sudo >/dev/null 2>&1; then
-    apt_cmd="sudo apt-get"
-  else
+  apt_cmd="$(resolve_apt_install_cmd || true)"
+  if [[ -z "$apt_cmd" ]]; then
     log_error "$(i18n_msg err_need_sudo)"
     return 1
   fi
@@ -35,10 +74,7 @@ ensure_oh_my_zsh() {
     return 0
   fi
 
-  if ! command -v git >/dev/null 2>&1; then
-    log_error "$(i18n_msg err_need_git)"
-    return 1
-  fi
+  ensure_git_installed "$dry_run"
 
   if [[ "$dry_run" == "yes" ]]; then
     return 0

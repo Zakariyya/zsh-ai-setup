@@ -31,6 +31,7 @@ i18n_msg() {
       write_done) echo "已写入" ;;
       write_skip) echo "内容未变化，跳过写入" ;;
       stage_questions) echo "交互配置" ;;
+      stage_depcheck) echo "依赖检查" ;;
       stage_prepare) echo "准备环境与写入配置" ;;
       stage_plugins) echo "插件安装阶段" ;;
       stage_finalize) echo "收尾与校验" ;;
@@ -63,6 +64,8 @@ i18n_msg() {
       plugin_desc_zsh_completions) echo "补全增强（命令/参数补全）" ;;
       plugin_desc_fzf_tab) echo "Tab 模糊选择增强" ;;
       plugin_desc_thefuck) echo "命令纠错工具（fuck）" ;;
+      git_missing) echo "未检测到 git，准备安装" ;;
+      git_install_done) echo "git 安装完成" ;;
       err_arg) echo "参数错误" ;;
       err_need_git) echo "缺少 git，请先安装 git" ;;
       err_need_sudo) echo "需要 sudo 权限安装 zsh" ;;
@@ -86,6 +89,7 @@ i18n_msg() {
       write_done) echo "Written" ;;
       write_skip) echo "Unchanged content, skipped" ;;
       stage_questions) echo "Interactive setup" ;;
+      stage_depcheck) echo "Dependency check" ;;
       stage_prepare) echo "Prepare environment and write config" ;;
       stage_plugins) echo "Plugin installation stage" ;;
       stage_finalize) echo "Finalize and verify" ;;
@@ -118,6 +122,8 @@ i18n_msg() {
       plugin_desc_zsh_completions) echo "extra command and argument completions" ;;
       plugin_desc_fzf_tab) echo "fuzzy Tab selection enhancements" ;;
       plugin_desc_thefuck) echo "command fixer (fuck)" ;;
+      git_missing) echo "git not found, preparing installation" ;;
+      git_install_done) echo "git installation completed" ;;
       err_arg) echo "Argument error" ;;
       err_need_git) echo "git is required" ;;
       err_need_sudo) echo "sudo is required to install zsh" ;;
