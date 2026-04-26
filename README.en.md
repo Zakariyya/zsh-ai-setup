@@ -6,7 +6,7 @@
 
 ## 🤖 AI-friendly: direct run or doc-first run
 
-This project packages your real Zsh setup for **Ubuntu / Debian / WSL**, with deterministic AI execution support.
+This project packages your real Zsh setup for **Ubuntu / Debian family (including Deepin) / WSL**, with deterministic AI execution support.
 
 - ✅ Interactive mode for humans
 - ✅ Non-interactive mode for AI agents

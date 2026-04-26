@@ -22,8 +22,8 @@ i18n_msg() {
     case "$key" in
       welcome) echo "开始安装 zsh-ai-setup" ;;
       uninstall_welcome) echo "开始卸载 zsh-ai-setup" ;;
-      os_supported) echo "系统检测通过：支持 Ubuntu / Debian / WSL" ;;
-      os_unsupported) echo "系统不受支持（仅 Ubuntu / Debian / WSL）" ;;
+      os_supported) echo "系统检测通过：支持 Ubuntu / Debian 系（含 Deepin）/ WSL" ;;
+      os_unsupported) echo "系统不受支持（仅 Ubuntu / Debian 系（含 Deepin）/ WSL）" ;;
       dry_run) echo "dry-run 模式：仅预览，不写入" ;;
       need_yes_non_interactive) echo "非交互模式请显式传 --force" ;;
       confirm_overwrite) echo "检测到已有配置文件，是否覆盖？" ;;
@@ -82,8 +82,8 @@ i18n_msg() {
     case "$key" in
       welcome) echo "Starting zsh-ai-setup installation" ;;
       uninstall_welcome) echo "Starting zsh-ai-setup uninstall" ;;
-      os_supported) echo "Platform check passed: Ubuntu / Debian / WSL" ;;
-      os_unsupported) echo "Unsupported OS (Ubuntu / Debian / WSL only)" ;;
+      os_supported) echo "Platform check passed: Ubuntu / Debian family (including Deepin) / WSL" ;;
+      os_unsupported) echo "Unsupported OS (Ubuntu / Debian family including Deepin / WSL only)" ;;
       dry_run) echo "Dry-run mode: preview only, no writes" ;;
       need_yes_non_interactive) echo "In non-interactive mode, pass --force explicitly" ;;
       confirm_overwrite) echo "Existing config detected. Overwrite?" ;;
