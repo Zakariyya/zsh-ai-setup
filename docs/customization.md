@@ -27,17 +27,25 @@ Recommended overrides:
 - `ZSH_AI_HOST_LABEL`
 - `ZSH_AI_STARTUP_TIP_MODE`
 
-## 3. Add optional plugins
+## 3. Optional plugins
 
-1. Add repo mapping in `scripts/install_plugins.sh`.
-2. Add plugin name to `configs/plugins.zsh` optional list.
-3. Reinstall with:
+Current optional plugins:
+- `zsh-completions`
+- `fzf-tab`
+- `thefuck`
+
+Interactive input rules:
+- `1` or Enter: select all optional plugins
+- `n`: install none
+- numeric options with `/` separator (for example: `2/4`)
+
+Non-interactive example:
 
 ```bash
-set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --non-interactive --install-plugins yes --optional-plugins your-plugin --force
+set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --non-interactive --install-plugins yes --optional-plugins zsh-completions/thefuck --force
 ```
 
-## 4. Startup tip language
+## 4. Startup tip language and mode
 
 Installer copies one of:
 - `templates/startup-tip.zh-CN.txt`
@@ -45,3 +53,9 @@ Installer copies one of:
 
 to:
 - `${XDG_CONFIG_HOME:-$HOME/.config}/zsh-ai-setup/startup-tip.txt`
+
+Mode-only update command:
+
+```bash
+~/.zsh-ai-setup/installer/install.sh --show-startup-tips once
+```

@@ -16,18 +16,20 @@
 
 - Ubuntu
 - Debian
+- Deepin（含 `linuxdeepin` / `UOS` 识别）
 - WSL
 
 ## 3. 前置检查（必须）
 
 ```bash
 command -v bash
-command -v git
+command -v wget || command -v curl
 ```
 
 说明：
-- 如果系统没有 `zsh`，安装过程可能需要 `sudo`。
-- 安装插件/Oh My Zsh 需要网络。
+- 单文件入口支持：只下载 `install.sh`，脚本会自动拉取其余依赖文件。
+- 缺少 `zsh` / `git` 时，脚本会尝试通过 `apt-get` 安装（非 root 优先 `sudo apt-get`）。
+- 安装插件/Oh My Zsh 需要网络访问 GitHub。
 
 ## 4. 非交互标准流程（推荐）
 
@@ -50,28 +52,24 @@ zsh -n ~/.zshenv
 bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --lang zh --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-- 如果你希望默认切换到 `zsh`，请使用 `--set-default-shell yes`
-- 如果需要切换默认 shell，请安装完成后手动执行 `chsh -s "$(command -v zsh)"`
-
 ## 6. 先读后执行指令（推荐给代理型 AI）
 
 ```text
 请先阅读 https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/AI_SETUP.md 与 https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/AI_USAGE.md，然后按非交互流程执行安装并输出完整校验结果。
 ```
 
-## 7. 参数参考
+## 7. 参数参考（含解释）
 
-- `--lang zh|en`
-- `--interactive`
-- `--non-interactive`
-- `--install-plugins yes|no`
-- `--show-startup-tips always|once|off`
-- `--set-default-shell yes|no`
-- `--backup yes|no`
-- `--tab-double-tap-threshold seconds`
-- `--optional-plugins p1/p2`
-- `--dry-run`
-- `--force`
+- `--lang zh|en`：设置安装语言与启动提示语言。
+- `--interactive`：交互式提问安装（人工操作）。
+- `--non-interactive`：无交互安装（脚本/AI）。
+- `--install-plugins yes|no`：是否安装插件（必装 + 可选）。
+- `--show-startup-tips always|once|off`：启动提示显示策略。
+- `--set-default-shell yes|no`：是否尝试切换默认 shell 到 zsh。
+- `--backup yes|no`：写入前是否备份已有配置文件。
+- `--optional-plugins p1/p2`：指定可选插件，使用 `/` 分隔（如 `zsh-completions/fzf-tab/thefuck`）。
+- `--dry-run`：仅预览动作，不写入。
+- `--force`：强制覆盖/更新路径。
 
 ## 8. 默认行为
 
@@ -81,7 +79,7 @@ bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya
 - `--backup` 默认 `yes`
 - `--install-plugins` 默认 `yes`
 - `--show-startup-tips` 默认 `always`
-- 插件目录已存在：默认跳过，`--force` 时尝试更新
+- 可选插件交互输入中：回车默认全选
 
 ## 9. 已有 ~/.zshrc 处理规则
 
@@ -91,15 +89,19 @@ bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya
 
 ## 10. 常见失败原因
 
-- 无 `git`：插件拉取失败
-- 无 `sudo` 且未安装 `zsh`：无法自动安装 zsh
-- `chsh` 被系统策略限制：默认 shell 切换失败
+- 无 `sudo` 且非 root，无法安装缺失依赖：`zsh` / `git`
+- GitHub 网络不可达，无法拉取 Oh My Zsh / 插件
+- `chsh` 被系统策略限制，默认 shell 切换失败（不影响安装本身）
 
 ## 11. 启动提示控制
 
-- `--show-startup-tips off`
-- `--show-startup-tips always`
-- `--show-startup-tips once`
+仅切换模式，不执行安装流程：
+
+```bash
+~/.zsh-ai-setup/installer/install.sh --show-startup-tips off
+~/.zsh-ai-setup/installer/install.sh --show-startup-tips always
+~/.zsh-ai-setup/installer/install.sh --show-startup-tips once
+```
 
 提示文件路径：
 - `${XDG_CONFIG_HOME:-$HOME/.config}/zsh-ai-setup/startup-tip.txt`
@@ -107,8 +109,8 @@ bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya
 ## 12. 卸载
 
 ```bash
-./uninstall.sh --interactive
-./uninstall.sh --non-interactive --restore-backup yes --force
+~/.zsh-ai-setup/installer/uninstall.sh --interactive
+~/.zsh-ai-setup/installer/uninstall.sh --non-interactive --restore-backup yes --force
 ```
 
 仅删除本项目管理内容，尽量恢复备份，不删除无关用户文件。

@@ -19,7 +19,9 @@ AI docs entry points:
 - [AI_USAGE.md](./AI_USAGE.md)
 - [docs/ai-usage.md (compat redirect)](./docs/ai-usage.md)
 
-## 🚀 Install (human)
+## 🚀 Install
+
+Unified baseline command (works even when only `install.sh` is downloaded; script bootstraps remaining files automatically):
 
 Interactive mode:
 
@@ -41,10 +43,6 @@ set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-se
 bash -lc 'set -e; wget -O install.sh https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/install.sh && chmod +x install.sh && ./install.sh --lang en --non-interactive --install-plugins yes --show-startup-tips once --set-default-shell yes --backup yes; echo "[verify] shell=$SHELL"; zsh --version; test -f ~/.zshrc; test -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"; zsh -n ~/.zshrc; zsh -n ~/.zshenv'
 ```
 
-Notes:
-- If you want `zsh` to become the default shell, use `--set-default-shell yes`
-- If you want to switch the default shell, run `chsh -s "$(command -v zsh)"` manually after install
-
 ### Mode B: doc-first instruction (safer)
 
 Send this prompt to an AI agent:
@@ -53,31 +51,61 @@ Send this prompt to an AI agent:
 Please read https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/AI_SETUP.md and https://raw.githubusercontent.com/Zakariyya/zsh-ai-setup/main/AI_USAGE.md first, then execute non-interactive installation and return full verification output.
 ```
 
-## 🛡️ Safety
+## 🧩 Optional plugins (interactive mode)
 
+Optional plugin menu:
+- `1) Select all`
+- `2) zsh-completions`
+- `3) fzf-tab`
+- `4) thefuck`
+- `n) Install no optional plugins`
+
+Input rules:
+- Use numeric options with `/` separator (for example `2/4`)
+- `1` or Enter: select all optional plugins
+- `n`: install none of the optional plugins
+
+## 🛡️ Dependencies and safety
+
+Dependency behavior:
+- Missing `zsh`: installer tries `apt-get install zsh`
+- Missing `git`: installer tries `apt-get install git`
+- Non-root user: prefers `sudo apt-get`
+- Plugin/Oh My Zsh install requires GitHub network access
+
+Safety behavior:
 - Existing `~/.zshrc`: interactive mode asks before overwrite
 - Backup format: `.zshrc.backup-YYYYMMDD-xxxx`
 - Safety flags: `--backup`, `--dry-run`, `--force`
 - Existing plugin folders are skipped by default (`--force` attempts update)
 
-## 🔧 Key arguments
+## 🔧 Key arguments (with explanations)
 
 - `--lang zh|en`: Sets installer language and startup-tip language.
-- `--interactive`: Runs question-based interactive installation (for humans).
-- `--non-interactive`: Runs unattended installation (for scripts/AI).
+- `--interactive`: Runs question-based interactive installation.
+- `--non-interactive`: Runs unattended installation.
 - `--install-plugins yes|no`: Enables or skips plugin installation.
 - `--show-startup-tips always|once|off`: Controls startup-tip display mode.
 - `--set-default-shell yes|no`: Tries to switch the default shell to zsh.
 - `--backup yes|no`: Backs up existing config files before writing.
-- `--tab-double-tap-threshold seconds`: Tab double-tap detection threshold (for example `0.25`, `0.35`, `0.45`).
-- `--optional-plugins p1/p2`: Selects optional plugins with `/` separator (for example `zsh-completions/fzf-tab/thefuck`).
+- `--optional-plugins p1/p2`: Selects optional plugins using `/` separator (for example `zsh-completions/fzf-tab/thefuck`).
 - `--dry-run`: Previews actions only; does not write files.
-- `--force`: Forces execution in overwrite/update-related paths.
+- `--force`: Forces overwrite/update-related paths.
+
+## 💡 Update startup tip mode only
+
+These commands update tip mode only and exit without running installation:
+
+```bash
+~/.zsh-ai-setup/installer/install.sh --show-startup-tips off
+~/.zsh-ai-setup/installer/install.sh --show-startup-tips once
+~/.zsh-ai-setup/installer/install.sh --show-startup-tips always
+```
 
 ## 🧩 Plugins
 
 Required:
-- `zsh-autosuggestions`: Suggests commands based on history as you type.
+- `zsh-autosuggestions`: Suggests commands from history as you type.
 - `zsh-syntax-highlighting`: Highlights command syntax to reduce input mistakes.
 
 Optional:
@@ -104,8 +132,8 @@ Open a new terminal and confirm startup tip language/mode behavior.
 ## 🧹 Uninstall
 
 ```bash
-./uninstall.sh --interactive
-./uninstall.sh --non-interactive --restore-backup yes --force
+~/.zsh-ai-setup/installer/uninstall.sh --interactive
+~/.zsh-ai-setup/installer/uninstall.sh --non-interactive --restore-backup yes --force
 ```
 
-Uninstall only removes project-managed assets and tries to restore backups conservatively.
+Uninstall removes project-managed assets and tries to restore backups conservatively.
